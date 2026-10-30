@@ -135,6 +135,15 @@ body.touch .ab kbd{display:none}
 .ab .cd{position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;font-family:Orbitron;font-size:26px;background:rgba(0,0,0,.55)}
 #sab-alert{left:50%;top:10px;transform:translateX(-50%);background:rgba(127,29,29,.92);border:2px solid #fca5a5;border-radius:12px;padding:6px 16px;font-weight:900;font-size:15px;text-align:center;display:none}
 #sab-alert.on{display:block;animation:pulse 1s infinite}
+#sab-guide{left:50%;top:82px;transform:translateX(-50%);display:none;flex-direction:column;align-items:center;pointer-events:none}
+#sab-guide.on{display:flex}
+#sg-arrow{width:92px;height:92px;filter:drop-shadow(0 0 10px rgba(239,68,68,.9)) drop-shadow(0 3px 2px #000);transition:transform .08s linear}
+#sg-arrow svg{width:100%;height:100%;animation:sgBob .8s ease-in-out infinite}
+#sg-text{margin-top:2px;background:rgba(127,29,29,.9);border:2px solid #fca5a5;border-radius:999px;padding:3px 14px;font-weight:900;font-size:15px;white-space:nowrap;text-shadow:0 1px 2px #000}
+#sg-text .orb{font-size:13px;color:#fde68a}
+#sab-guide.here #sg-text{background:rgba(22,101,52,.92);border-color:#86efac;animation:pulse .6s infinite}
+@keyframes sgBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@media (max-height:520px){#sab-guide{top:64px}#sg-arrow{width:60px;height:60px}#sg-text{font-size:12px}}
 #red-flash{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 120px 40px rgba(239,68,68,.55);opacity:0}
 #red-flash.on{animation:redf 1s infinite}
 @keyframes redf{50%{opacity:1}}
@@ -250,6 +259,12 @@ body.touch .ab{width:70px;height:70px;font-size:22px}
 #vent-arrows{position:absolute;left:50%;bottom:110px;transform:translateX(-50%);display:flex;gap:8px;flex-wrap:wrap;justify-content:center;pointer-events:none;max-width:90vw}
 .varrow{pointer-events:auto;padding:10px 14px;border-radius:14px;background:rgba(15,23,42,.88);border:3px solid #a3a3a3;font-size:14px;font-weight:900;display:flex;align-items:center;gap:6px}
 #xhair{position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px;border-radius:50%;background:rgba(255,255,255,.85);box-shadow:0 0 0 2px rgba(0,0,0,.5);pointer-events:none}
+#act-tip{position:absolute;left:50%;top:calc(50% + 22px);transform:translateX(-50%);display:flex;flex-direction:column;gap:5px;align-items:center;pointer-events:none}
+#act-tip div{background:rgba(2,6,23,.78);border:2px solid #475569;border-radius:999px;padding:4px 12px;font-size:14px;font-weight:900;white-space:nowrap;display:flex;align-items:center;gap:6px}
+#act-tip div.kill{border-color:#ef4444;color:#fecaca}
+#act-tip b{font-family:Orbitron;font-size:10px;background:#e2e8f0;color:#0f172a;border-radius:5px;padding:2px 6px}
+#act-tip .kill b{background:#ef4444;color:#fff}
+body.touch #act-tip{display:none}
 #look-zone{position:absolute;right:0;top:0;bottom:0;width:50%;display:none;touch-action:none}
 body.touch #look-zone{display:block}
 .nl.body{color:#fecaca!important;font-size:13px;background:rgba(127,29,29,.8);padding:2px 9px;border-radius:999px;border:1px solid #fca5a5}
@@ -302,6 +317,7 @@ body.touch #look-zone{display:block}
         <li><b style="color:var(--imp)">インポスター</b>：クルーにばれないように<b>捕食</b>していく。クルーと同じ人数まで減らすか、<b>サボタージュ</b>で城をこわしたら勝ち。</li>
         <li>死体を見つけたら<b>通報</b>。マップの真ん中（地図の間）の<b>緊急会議ボタン</b>をおすと会議。話し合って、あやしい人に投票しよう。</li>
         <li>役職（エンジニア・科学者・保安官・シェイプシフター）は、部屋をつくった人が設定で決められるよ。</li>
+        <li><b>操作はクリックだけでOK</b>：タスク・ベント・通報・会議ボタンは近づいて<b>クリック</b>。インポスターは目の前の相手を<b>左クリックで捕食</b>（右クリックはいつも「使う」）。サボタージュはボタンから。</li>
         <li>1人称視点。自分のまわり以外は真っ暗！ 画面右側をスワイプ（パソコンは画面をクリックしてマウス）で見回そう。</li>
         <li>パソコン：<b>WASD</b>移動／<b>←→</b>向きを変える／<b>E</b>使う・ベント／<b>R</b>通報／<b>左クリック</b>捕食／<b>F</b>サボタージュ／<b>G</b>能力／<b>Tab</b>地図</li>
       </ul>
@@ -340,7 +356,7 @@ body.touch #look-zone{display:block}
   <div id="labels"></div>
   <div id="red-flash"></div>
   <div id="vent-arrows"></div>
-  <div id="joy-zone"></div><div id="joy" class="idle"><i id="joy-k"></i></div><div id="look-zone"></div><div id="xhair"></div>
+  <div id="joy-zone"></div><div id="joy" class="idle"><i id="joy-k"></i></div><div id="look-zone"></div><div id="xhair"></div><div id="act-tip"></div>
   <div class="hud" id="hud-tl">
     <div id="role-tag"></div>
     <div class="tbar" id="tbar"><small>みんなのタスク</small><div class="bar"><i id="tbar-i"></i></div></div>
@@ -349,15 +365,16 @@ body.touch #look-zone{display:block}
   <div class="hud" id="hud-tr"><button class="ib" id="b-map" title="地図 (Tab)"><i class="fa-solid fa-map"></i><kbd>Tab</kbd></button><button class="ib" id="b-menu"><i class="fa-solid fa-gear"></i></button></div>
   <div class="hud" id="hud-mm"><canvas id="minimap" width="180" height="180"></canvas><div id="mm-cap"><i class="fa-solid fa-map"></i> <span id="mm-cap-t"><kbd>Tab</kbd>で大きな地図</span></div></div>
   <div class="hud" id="sab-alert"></div>
+  <div class="hud" id="sab-guide"><div id="sg-arrow"><svg viewBox="0 0 100 100"><path d="M50 4 L92 52 L66 52 L66 94 L34 94 L34 52 L8 52 Z" fill="#ef4444" stroke="#fff" stroke-width="6" stroke-linejoin="round"/></svg></div><div id="sg-text"></div></div>
   <div class="hud" id="ghost-tag">👻 あなたは幽霊です。かべを通りぬけられるよ</div>
   <div class="hud" id="hint">WASD 移動　E 使う　R 通報　Tab 地図</div>
   <div class="hud" id="hud-br">
     <button class="ab abil off" id="ab-abil"><i class="fa-solid fa-wand-sparkles"></i><small id="ab-abil-t">能力</small><kbd>G</kbd></button>
     <button class="ab sab off" id="ab-sab"><i class="fa-solid fa-skull-crossbones"></i><small>サボタージュ</small><kbd>F</kbd></button>
-    <button class="ab vent off" id="ab-vent"><i class="fa-solid fa-dungeon"></i><small>ベント</small><kbd>V</kbd></button>
-    <button class="ab kill off" id="ab-kill"><i class="fa-solid fa-teeth"></i><small id="ab-kill-t">捕食</small><kbd>左クリック</kbd></button>
-    <button class="ab rep off" id="ab-rep"><i class="fa-solid fa-bullhorn"></i><small>通報</small><kbd>R</kbd></button>
-    <button class="ab use off" id="ab-use"><i class="fa-solid fa-hand-pointer"></i><small id="ab-use-t">使う</small><kbd>E</kbd></button>
+    <button class="ab vent off" id="ab-vent"><i class="fa-solid fa-dungeon"></i><small>ベント</small><kbd>右</kbd></button>
+    <button class="ab kill off" id="ab-kill"><i class="fa-solid fa-teeth"></i><small id="ab-kill-t">捕食</small><kbd>左</kbd></button>
+    <button class="ab rep off" id="ab-rep"><i class="fa-solid fa-bullhorn"></i><small>通報</small><kbd>右</kbd></button>
+    <button class="ab use off" id="ab-use"><i class="fa-solid fa-hand-pointer"></i><small id="ab-use-t">使う</small><kbd>右</kbd></button>
   </div>
 </div>
 
@@ -1633,6 +1650,30 @@ function killTarget(){
 }
 function nearestVent(){ const me=GS.me; if(!me||!canVent()||GS.phase!=='play') return null; if(GS.vent>=0) return VENTS[GS.vent]; let best=null, bd=1.8; VENTS.forEach(v=>{ const d=d2(me.pos,v); if(d<bd){ bd=d; best=v; } }); return best; }
 
+/* ---------- クリック操作 ---------- */
+function killReady(){ return !!killTarget()&&now()>=GS.killReadyAt&&!(GS.killCdUntil&&now()<GS.killCdUntil); }
+function otherAct(){   // キル以外：近くにあるものを使う
+  if(nearestReport()) return {k:'rep',lbl:'通報',run:doReport};
+  if(GS.vent>=0) return {k:'vent',lbl:'ベントから出る',run:doVent};
+  const u=nearestUse(); if(u) return {k:'use',lbl:u.lbl,run:doUse};
+  const v=nearestVent(); if(v&&!(GS.role==='eng'&&now()<GS.ventReadyAt)) return {k:'vent',lbl:'ベントに入る',run:doVent};
+  return null;
+}
+function clickAct(left){
+  if(GS.phase!=='play') return;
+  if(left&&killReady()){ doKill(); return; }
+  const a=otherAct(); if(a) a.run();
+}
+function updateActTip(){
+  const el=$('act-tip'); let h='';
+  if(GS.phase==='play'&&!GS.inTask&&!document.querySelector('.ov.on')){
+    const kt=killReady()?killTarget():null, a=otherAct();
+    if(kt) h+=`<div class="kill"><b>左クリック</b>${GS.role==='sher'?'攻撃':'捕食'}：${esc(kt.look.name)}</div>`;
+    if(a) h+=`<div><b>${kt?'右クリック':'クリック'}</b>${esc(a.lbl)}</div>`;
+  }
+  if(el.innerHTML!==h) el.innerHTML=h;
+}
+
 /* ---------- ボタンの動き ---------- */
 function doUse(){
   const u=nearestUse(); if(!u) return; SFX.play('click');
@@ -1647,7 +1688,7 @@ function doVent(){
   const v=nearestVent(); if(!v) return;
   if(GS.vent>=0){ GS.vent=-1; puff(GS.me.pos.clone().setY(0.5),0x64748b); SFX.play('vent'); if(GS.role==='eng') GS.ventReadyAt=now()+15000; return; }
   if(GS.role==='eng'&&now()<GS.ventReadyAt){ toast(`ベントはあと ${Math.ceil((GS.ventReadyAt-now())/1000)} 秒で使えるよ`); return; }
-  closeTask(); GS.vent=v.id; GS.ventIn=now(); GS.me.pos.set(v.x,0,v.z); puff(GS.me.pos.clone().setY(0.5),0x64748b); SFX.play('vent');
+  closeTask(); if(document.pointerLockElement) document.exitPointerLock(); GS.vent=v.id; GS.ventIn=now(); GS.me.pos.set(v.x,0,v.z); puff(GS.me.pos.clone().setY(0.5),0x64748b); SFX.play('vent');
 }
 function ventMove(id){ if(GS.vent<0) return; GS.vent=id; const v=VENTS[id]; GS.me.pos.set(v.x,0,v.z); G.camT.copy(GS.me.pos); SFX.play('vent',0.5); }
 function doSab(){ if(!amImp()||GS.phase!=='play') return; openMap('sab'); }
@@ -1663,7 +1704,7 @@ let hudT=0;
 function updateHUD(dt){
   const me=GS.me; if(!me) return;
   const locked=document.pointerLockElement===$('cv');
-  const hint=locked?((amImp()||GS.role==='sher')&&!GS.dead?'左クリック '+(GS.role==='sher'?'攻撃':'捕食')+'　':'')+'WASD 移動　マウス 見回す　E 使う　R 通報　Tab 地図　Esc マウスを出す':'画面をクリックするとマウスで見回せるよ　Tab 地図';
+  const hint=locked?'左クリック 使う／キル　右クリック 使う　WASD 移動　Tab 地図　Esc マウスを出す':GS.vent>=0?'行き先のボタンをおして移動（数字キーでもOK）':'画面をクリックするとマウスで見回せるよ　Tab 地図';
   if($('hint').textContent!==hint) $('hint').textContent=hint;
   const playing=GS.phase==='play', t=now();
   const u=nearestUse(); $('ab-use').style.display=''; setAb('ab-use',!!u&&playing); $('ab-use-t').textContent=u?u.lbl:'使う';
@@ -2055,6 +2096,59 @@ function drawMap(){
   if(GS.me){ const [a,b]=mapXY(GS.me.pos.x,GS.me.pos.z); x.fillStyle=colHex(GS.me.color); x.strokeStyle='#fff'; x.lineWidth=4; x.beginPath(); x.arc(a,b,13,0,7); x.fill(); x.stroke(); x.beginPath(); x.moveTo(a,b); x.lineTo(a+Math.sin(GS.yaw)*34,b+Math.cos(GS.yaw)*34); x.stroke(); }
 }
 
+/* ---------- サボタージュの道案内（矢印） ----------
+   修理場所から館の中を逆向きに広げた「距離マップ」を作り、
+   自分の位置から距離が小さくなる方へたどって、次に向かう地点を矢印でさす */
+const SG={key:'',dist:null,targets:[],beams:[]};
+function sabTargets(){
+  const s=GS.sab; if(!s||!PANELS[s.k]) return [];
+  return PANELS[s.k].map((pn,i)=>({pn,i})).filter(o=>!(s.parts&&s.parts[o.i]));
+}
+function buildSabDist(tg){
+  const N=MW*MD, dist=new Int32Array(N).fill(-1), q=new Int32Array(N); let h=0,t=0;
+  tg.forEach(({pn})=>rectCells(pn.x-1.6,pn.z-1.6,pn.x+1.6,pn.z+1.6,k=>{ if(WALK[k]&&!BLOCK[k]&&dist[k]<0){ dist[k]=0; q[t++]=k; } }));
+  while(h<t){ const k=q[h++], i=k%MW, j=(k/MW)|0;
+    for(const n of [i>0?k-1:-1,i<MW-1?k+1:-1,j>0?k-MW:-1,j<MD-1?k+MW:-1]){ if(n<0||dist[n]>=0||!WALK[n]||BLOCK[n]) continue; dist[n]=dist[k]+1; q[t++]=n; } }
+  return dist;
+}
+function sabPath(px,pz,steps){
+  const d=SG.dist; let k=gJ(pz)*MW+gI(px);
+  if(!d||k<0||k>=d.length) return null;
+  if(d[k]<0){ let best=-1,bd=1e9; for(let dj=-2;dj<=2;dj++)for(let di=-2;di<=2;di++){ const n=k+dj*MW+di; if(n>=0&&n<d.length&&d[n]>=0&&d[n]<bd){ bd=d[n]; best=n; } } if(best<0) return null; k=best; }
+  const pts=[k];
+  for(let s=0;s<steps&&d[k]>0;s++){ const i=k%MW; let nk=k;
+    for(const n of [i>0?k-1:-1,i<MW-1?k+1:-1,k-MW,k+MW,(i>0?k-MW-1:-1),(i<MW-1?k-MW+1:-1),(i>0?k+MW-1:-1),(i<MW-1?k+MW+1:-1)]){ if(n<0||n>=d.length||d[n]<0) continue; if(d[n]<d[nk]) nk=n; }
+    if(nk===k) break; k=nk; pts.push(k); }
+  return {pts,len:d[pts[0]]};
+}
+const kX=k=>k%MW+GX0+0.5, kZ=k=>((k/MW)|0)+GZ0+0.5;
+function updateSabGuide(dt){
+  const el=$('sab-guide'), me=GS.me;
+  const tg=(GS.phase==='play'&&!GS.dead&&me)?sabTargets():[];
+  // 光の柱（どこからでも見える）
+  SG.beams.forEach(b=>b.visible=false);
+  tg.forEach((o,n)=>{ let b=SG.beams[n]; if(!b){ b=new THREE.Mesh(new THREE.CylinderGeometry(0.7,0.7,40,16,1,true),new THREE.MeshBasicMaterial({color:0xff3b3b,transparent:true,opacity:0.35,fog:false,depthTest:false,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending})); b.renderOrder=999; G.scene.add(b); SG.beams[n]=b; }
+    b.visible=true; b.position.set(o.pn.x,20,o.pn.z); b.material.opacity=0.25+Math.sin(G.t*6)*0.12; });
+  if(!tg.length||GS.vent>=0||GS.inTask||document.querySelector('.ov.on')){ el.classList.remove('on'); SG.path=null; return; }
+  const key=GS.sab.k+'|'+tg.map(o=>o.i).join(',')+'|'+DOORS.map(d=>d.closed?1:0).join('');
+  if(key!==SG.key){ SG.key=key; SG.dist=buildSabDist(tg); }
+  const path=sabPath(me.pos.x,me.pos.z,400); SG.path=path;
+  if(!path){ el.classList.remove('on'); return; }
+  // 6マス先の地点をめざす（角を曲がるときに先回りして向く）
+  const wk=path.pts[Math.min(6,path.pts.length-1)];
+  let dx=kX(wk)-me.pos.x, dz=kZ(wk)-me.pos.z;
+  const near=tg.reduce((a,o)=>Math.min(a,d2(me.pos,o.pn)),1e9);
+  if(path.len<=2){ const o=tg.reduce((a,o)=>d2(me.pos,o.pn)<d2(me.pos,a.pn)?o:a); dx=o.pn.x-me.pos.x; dz=o.pn.z-me.pos.z; }
+  const sy=Math.sin(GS.yaw), cy=Math.cos(GS.yaw);
+  const f=dx*sy+dz*cy, r=-dx*cy+dz*sy;
+  $('sg-arrow').style.transform=`rotate(${Math.atan2(r,f)*180/Math.PI}deg)`;
+  const info=SAB_INFO[GS.sab.k], here=near<2.4;
+  el.classList.toggle('here',here);
+  const txt=here?`ここ！ クリックで${info.fixName}`:`${ROOM_BY[info.room].name}へ　<span class="orb">${Math.max(1,Math.round(path.len))}m</span>`;
+  if($('sg-text').innerHTML!==txt) $('sg-text').innerHTML=txt;
+  el.classList.add('on');
+}
+
 /* ---------- 右上のミニマップ ---------- */
 const MM_K=3; let MM_BG=null;
 function buildMiniBg(){
@@ -2080,6 +2174,8 @@ function drawMini(dt){
   const comms=GS.sab&&GS.sab.k==='comms';
   if(!comms&&!amImp()) GS.tasks.forEach(t=>{ if(t.done) return; const s=ST_BY[t.id]; const [a,b]=P(s.x,s.z); x.fillStyle='#facc15'; x.font='900 16px sans-serif'; x.textAlign='center'; x.fillText('!',a,b+6); });
   if(GS.sab) (PANELS[GS.sab.k]||[]).forEach(pn=>{ const [a,b]=P(pn.x,pn.z); x.fillStyle='#ef4444'; x.beginPath(); x.arc(a,b,6+Math.sin(G.t*6)*2,0,7); x.fill(); });
+  if(SG.path&&SG.path.pts.length>1&&!GS.dead){ x.strokeStyle='rgba(248,113,113,.95)'; x.lineWidth=4; x.setLineDash([7,5]); x.lineDashOffset=-G.t*30; x.beginPath();
+    SG.path.pts.forEach((k,n)=>{ const [a,b]=P(kX(k),kZ(k)); n?x.lineTo(a,b):x.moveTo(a,b); }); x.stroke(); x.setLineDash([]); }
   // 鐘
   { const [a,b]=P(BELL.x,BELL.z); x.font='14px sans-serif'; x.textAlign='center'; x.fillText('🚨',a,b+5); }
   // 自分（向きの矢印）
@@ -2194,7 +2290,9 @@ function bindLook(){
   cv.addEventListener('click',()=>{ if(IS_TOUCH||!$('game').classList.contains('on')) return; if(document.querySelector('.ov.on')) return; if(cv.requestPointerLock) cv.requestPointerLock(); });
   document.addEventListener('mousemove',e=>{ if(document.pointerLockElement!==cv) return; lookBy(e.movementX,e.movementY,0.0024); });
   // 左クリックで捕食（保安官は攻撃）。マウスで見回しているときだけ
-  document.addEventListener('mousedown',e=>{ if(e.button!==0||document.pointerLockElement!==cv||GS.inTask) return; doKill(); });
+  // 左クリック：キル（相手がいないときは使う／通報／ベント）　右クリック：使う／通報／ベント
+  document.addEventListener('mousedown',e=>{ if(document.pointerLockElement!==cv||GS.inTask) return; if(e.button===0) clickAct(true); else if(e.button===2) clickAct(false); });
+  document.addEventListener('contextmenu',e=>{ if($('game').classList.contains('on')) e.preventDefault(); });
   const z=$('look-zone'); let id=null, lx=0, ly=0;
   z.addEventListener('touchstart',e=>{ e.preventDefault(); if(id!==null) return; const t=e.changedTouches[0]; id=t.identifier; lx=t.clientX; ly=t.clientY; },{passive:false});
   z.addEventListener('touchmove',e=>{ e.preventDefault(); for(const t of e.changedTouches) if(t.identifier===id){ lookBy(t.clientX-lx,t.clientY-ly,0.006); lx=t.clientX; ly=t.clientY; } },{passive:false});
@@ -2214,7 +2312,7 @@ function loop(){
   if(GS.phase==='play'||GS.phase==='intro') sendInput(dt);
   animPlayers(dt); updateFx(dt); updateWorld(G.t,dt);
   updateCamera(dt);
-  updateHUD(dt); drawMini(dt);
+  updateHUD(dt); updateSabGuide(dt); drawMini(dt); updateActTip();
   if(document.pointerLockElement&&document.querySelector('.ov.on:not(#intro):not(#death)')) document.exitPointerLock();
   slowT-=dt; if(slowT<=0){ slowT=0.4; updateTaskList(); meetTimerTick(); if($('mapov').classList.contains('on')) drawMap(); if(GS.vitalsUntil&&now()>GS.vitalsUntil&&$('vitals').classList.contains('on')){ ov('vitals',false); GS.vitalsUntil=0; GS.abilReadyAt=now()+15000; } }
   if(!QS.has('norender')) G.renderer.render(G.scene,G.camera);
